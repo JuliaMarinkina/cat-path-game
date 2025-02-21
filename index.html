@@ -48,6 +48,9 @@
         .wrong-choice {
             background-color: #ff6666 !important;
         }
+        .correct-choice {
+    background-color: #66ff66 !important; /* Ярко-зелёный */
+}
     </style>
 </head>
 <body>
@@ -116,8 +119,7 @@
             document.querySelector("#end-screen").classList.remove("hidden");
         }, 500);
     }
-}
-            
+}     
             moveCat(cat, choice);
             
             if (cat === 'orange') {
