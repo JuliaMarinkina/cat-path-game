@@ -41,7 +41,7 @@
             background-color: #c774b3;
             border: none;
             cursor: pointer;
-            transition: 0.3s;
+            transition: background-color 0.3s ease-in-out;
         }
         button:hover {
             background-color: #ffb347;
@@ -76,6 +76,11 @@
             justify-content: center;
             z-index: 1000;
             visibility: hidden;
+            animation: fade-in 1s ease-in-out;
+        }
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         #end-screen h2 {
             font-size: 48px;
@@ -94,6 +99,13 @@
             0% { text-shadow: 2px 2px 5px rgba(255, 192, 203, 0.9); }
             100% { text-shadow: 4px 4px 10px rgba(255, 105, 180, 1); }
         }
+        .blinking-text {
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -103,13 +115,13 @@
         <div class="cats">
             <div>
                 <img src="https://juliamarinkina.github.io/cat-path-game/orange-cat.png" alt="Фаина" id="faiana-cat" class="cat-img">
-                <p>Фаина</p>
+                <p><strong>Фаина</strong></p>
                 <button onclick="makeChoice(0, 'orange')" id="orange-btn1">Мокрый корм</button>
                 <button onclick="makeChoice(1, 'orange')" id="orange-btn2">Сухой корм</button>
             </div>
             <div>
                 <img src="https://juliamarinkina.github.io/cat-path-game/black-cat.png" alt="Игнат" id="ignat-cat" class="cat-img">
-                <p>Игнат</p>
+                <p><strong>Игнат</strong></p>
                 <button onclick="makeChoice(0, 'black')" id="black-btn1">Мокрый корм</button>
                 <button onclick="makeChoice(1, 'black')" id="black-btn2">Сухой корм</button>
             </div>
@@ -119,7 +131,7 @@
     <div id="end-screen" class="hidden">
         <h2>Ура! Ты выиграл приз!</h2>
         <p>Котики довольны твоими выборами.</p>
-        <p>С 23 февраля, пися!</p>
+        <p class="blinking-text">С 23 февраля, пися!</p>
     </div>
 </body>
 </html>
