@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>КоськоКвиз</title>
+    <title>Котики и Выбор</title>
     <style>
         body {
             text-align: center;
             font-family: Arial, sans-serif;
-            background-color: #d8a7d8;
-            margin: 0;
-            overflow-x: hidden;
+            background-color: #fef5d5;
         }
         .game-container {
             max-width: 400px;
@@ -36,7 +34,7 @@
             margin: 10px 0;
             padding: 10px;
             font-size: 18px;
-            background-color: #c774b3;
+            background-color: #ffcc66;
             border: none;
             cursor: pointer;
             transition: 0.3s;
@@ -50,75 +48,34 @@
         .wrong-choice {
             background-color: #ff6666 !important;
         }
-        .correct-choice {
-            background-color: #66ff66 !important;
-        }
-        
-        /* ✅ Финальный экран */
-        #end-screen {
-            display: none; /* Скрываем экран победы изначально */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://juliamarinkina.github.io/cat-path-game/prize-background.png?v=2');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #d8a7d8;
-            padding: 50px;
-            color: white;
-            text-align: center;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            visibility: hidden;
-        }
-
-        #end-screen h2 {
-            font-size: 48px;
-            color: #ff69b4;
-            font-weight: bold;
-            text-shadow: 3px 3px 10px rgba(255, 105, 180, 0.9);
-        }
-
-        #end-screen p {
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-        }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <h1>КоськоКвиз!</h1>
-        <p id="question">Выбери верное утверждение для каждого котика и получишь приз!</p>
+        <h1>Котики и Выбор</h1>
+        <p id="question">Выбери путь для каждого котика!</p>
         <div class="cats">
             <div>
-                <img src="https://juliamarinkina.github.io/cat-path-game/orange-cat.png" alt="Фаина" id="faiana-cat" class="cat-img">
-                <p>Фаина</p>
+                <img src="/mnt/data/A_cartoon-style_illustration_of_two_cats._One_is_a.png" alt="Рыжий кот" id="orange-cat" class="cat-img">
+                <p>Рыжий кот</p>
                 <button onclick="makeChoice(0, 'orange')" id="orange-btn1">Мокрый корм</button>
                 <button onclick="makeChoice(1, 'orange')" id="orange-btn2">Сухой корм</button>
             </div>
             <div>
-                <img src="https://juliamarinkina.github.io/cat-path-game/black-cat.png" alt="Игнат" id="ignat-cat" class="cat-img">
-                <p>Игнат</p>
-                <button onclick="makeChoice(0, 'black')" id="black-btn1">Мокрый корм</button>
-                <button onclick="makeChoice(1, 'black')" id="black-btn2">Сухой корм</button>
+                <img src="/mnt/data/A_cartoon-style_illustration_of_two_cats._One_is_a.png" alt="Черно-белый кот" id="black-cat" class="cat-img">
+                <p>Черно-белый кот</p>
+                <button onclick="makeChoice(0, 'black')" id="black-btn1" disabled>Мокрый корм</button>
+                <button onclick="makeChoice(1, 'black')" id="black-btn2" disabled>Сухой корм</button>
             </div>
         </div>
+        <div id="end-screen" class="hidden">
+            <h2>Поздравляю! Ты выиграл приз!</h2>
+            <p>Котики довольны твоими выборами.</p>
+        </div>
     </div>
-
-    <div id="end-screen" class="hidden">
-        <h2>Ура! Ты выиграл приз!</h2>
-        <p>Котики довольны твоими выборами.</p>
-    </div>
-
     <script>
         let step = 0;
-        let selectedAnswers = { orange: false, black: false };
+        let selectedOrange = false;
         const correctChoices = {
             'orange': ["Мокрый корм", "Какою в туалет", "Поменьбше", "Люблю шошлык", "Люблю мущин"],
             'black': ["Сухой корм", "Какою на пол", "Побольбше", "Люблю креветки", "Тоже люблю мущин"]
@@ -133,12 +90,6 @@
 
         function makeChoice(choice, cat) {
             let selectedOption = choices[step][choice];
-
-            // ❗ Убираем старые подсветки у кнопок котика
-            document.getElementById(`${cat}-btn1`).classList.remove("correct-choice", "wrong-choice");
-            document.getElementById(`${cat}-btn2`).classList.remove("correct-choice", "wrong-choice");
-
-            // ❌ Неправильный выбор – делаем красным
             if (correctChoices[cat][step] !== selectedOption) {
                 document.getElementById(`${cat}-btn${choice + 1}`).classList.add("wrong-choice");
                 setTimeout(() => {
@@ -146,45 +97,41 @@
                 }, 500);
                 return;
             }
-
-            // ✅ Правильный выбор – делаем зелёным
-            document.getElementById(`${cat}-btn${choice + 1}`).classList.add("correct-choice");
-            selectedAnswers[cat] = true;
-
-            // Если оба кота выбрали, переходим дальше
-            if (selectedAnswers.orange && selectedAnswers.black) {
-                setTimeout(updateChoices, 500);
+            
+            moveCat(cat, choice);
+            
+            if (cat === 'orange') {
+                selectedOrange = true;
+                document.getElementById("black-btn1").disabled = false;
+                document.getElementById("black-btn2").disabled = false;
+            } else {
+                step++;
+                if (step < choices.length) {
+                    updateChoices();
+                } else {
+                    document.querySelector(".choices").classList.add("hidden");
+                    document.querySelector("#end-screen").classList.remove("hidden");
+                }
             }
         }
 
+        function moveCat(cat, choice) {
+            let catElement = document.getElementById(`${cat}-cat`);
+            let moveDistance = choice === 0 ? -50 : 50; // Двигаем влево или вправо
+            catElement.style.transform = `translateX(${moveDistance}px)`;
+        }
+
         function updateChoices() {
-            step++;
-
-            // ✅ Если вопросов больше нет – показываем экран победы
-            if (step >= choices.length) {
-                document.querySelector(".game-container").style.display = "none"; // Скрываем всё
-                document.getElementById("end-screen").style.display = "flex"; // Показываем финальный экран
-                document.getElementById("end-screen").style.visibility = "visible"; // ✅ Теперь точно покажется
-                document.body.style.overflow = "hidden"; // ❗ Отключаем прокрутку страницы
-                return;
-            }
-
-            // ❗ Очищаем кнопки от старых цветов
-            document.querySelectorAll("button").forEach(btn => {
-                btn.classList.remove("correct-choice", "wrong-choice");
-            });
-
-            // Обновляем текст кнопок
+            document.querySelector("#question").textContent = "Выбери путь для каждого котика!";
             document.getElementById("orange-btn1").textContent = choices[step][0];
             document.getElementById("orange-btn2").textContent = choices[step][1];
             document.getElementById("black-btn1").textContent = choices[step][0];
             document.getElementById("black-btn2").textContent = choices[step][1];
-
-            // Сбрасываем выборы
-            selectedAnswers = { orange: false, black: false };
+            document.getElementById("black-btn1").disabled = true;
+            document.getElementById("black-btn2").disabled = true;
+            selectedOrange = false;
         }
     </script>
 </body>
 </html>
-
 
