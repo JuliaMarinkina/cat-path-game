@@ -9,6 +9,8 @@
             text-align: center;
             font-family: Arial, sans-serif;
             background-color: #d8a7d8;
+            margin: 0;
+            overflow-x: hidden;
         }
         .game-container {
             max-width: 400px;
@@ -34,59 +36,59 @@
             margin: 10px 0;
             padding: 10px;
             font-size: 18px;
-            background-color: #c774b3; /* Розово-сиреневые кнопки */
+            background-color: #c774b3;
             border: none;
             cursor: pointer;
             transition: 0.3s;
         }
         button:hover {
-            background-color: #ffb347; /* Жёлтый при наведении */
+            background-color: #ffb347;
         }
         .hidden {
             display: none;
         }
         .wrong-choice {
-            background-color: #ff6666 !important; /* Красный при ошибке */
+            background-color: #ff6666 !important;
         }
         .correct-choice {
-            background-color: #66ff66 !important; /* Зелёный при правильном ответе */
+            background-color: #66ff66 !important;
         }
         
-        /* ✅ Стили для финального экрана */
+        /* ✅ Финальный экран */
         #end-screen {
-    display: none; /* Полностью скрываем */
-    position: fixed; /* Размещаем поверх всего контента */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://juliamarinkina.github.io/cat-path-game/prize-background.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat; /* Не повторяем картинку */
-    background-color: #d8a7d8; /* Цвет на случай, если картинка не загрузится */
-    padding: 50px;
-    color: white;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000; /* Поверх всех остальных элементов */
-}
+            display: none; /* Полностью скрываем */
+            position: fixed; /* Размещаем поверх всего */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://juliamarinkina.github.io/cat-path-game/prize-background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #d8a7d8;
+            padding: 50px;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
 
-#end-screen h2 {
-    font-size: 48px;
-    color: #ff69b4;
-    font-weight: bold;
-    text-shadow: 3px 3px 10px rgba(255, 105, 180, 0.9); /* Более выразительный блеск */
-}
+        #end-screen h2 {
+            font-size: 48px;
+            color: #ff69b4;
+            font-weight: bold;
+            text-shadow: 3px 3px 10px rgba(255, 105, 180, 0.9);
+        }
 
-#end-screen p {
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
+        #end-screen p {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -107,15 +109,16 @@
                 <button onclick="makeChoice(1, 'black')" id="black-btn2">Сухой корм</button>
             </div>
         </div>
-        <div id="end-screen" class="hidden">
-            <h2>Ура! Ты выиграл приз!</h2>
-            <p>Котики довольны твоими выборами.</p>
-        </div>
     </div>
-    
+
+    <div id="end-screen">
+        <h2>Ура! Ты выиграл приз!</h2>
+        <p>Котики довольны твоими выборами.</p>
+    </div>
+
     <script>
         let step = 0;
-        let selectedAnswers = { orange: false, black: false }; // Сохраняем выборы
+        let selectedAnswers = { orange: false, black: false };
         const correctChoices = {
             'orange': ["Мокрый корм", "Какою в туалет", "Поменьбше", "Люблю шошлык", "Люблю мущин"],
             'black': ["Сухой корм", "Какою на пол", "Побольбше", "Люблю креветки", "Тоже люблю мущин"]
@@ -131,11 +134,11 @@
         function makeChoice(choice, cat) {
             let selectedOption = choices[step][choice];
 
-            // ❗ Убираем цвета только у кнопок выбранного кота
+            // ❗ Убираем старые подсветки у кнопок котика
             document.getElementById(`${cat}-btn1`).classList.remove("correct-choice", "wrong-choice");
             document.getElementById(`${cat}-btn2`).classList.remove("correct-choice", "wrong-choice");
 
-            // Если ответ НЕ правильный – делаем красным
+            // ❌ Неправильный выбор – делаем красным
             if (correctChoices[cat][step] !== selectedOption) {
                 document.getElementById(`${cat}-btn${choice + 1}`).classList.add("wrong-choice");
                 setTimeout(() => {
@@ -144,40 +147,42 @@
                 return;
             }
 
-            // ✅ Если ответ правильный – делаем зелёным (только для нажатой кнопки)
+            // ✅ Правильный выбор – делаем зелёным
             document.getElementById(`${cat}-btn${choice + 1}`).classList.add("correct-choice");
-            selectedAnswers[cat] = true; // Отмечаем, что котик сделал правильный выбор
+            selectedAnswers[cat] = true;
 
-            // Если оба котика выбрали, двигаем дальше
+            // Если оба кота выбрали, переходим дальше
             if (selectedAnswers.orange && selectedAnswers.black) {
                 setTimeout(updateChoices, 500);
             }
         }
 
         function updateChoices() {
-    step++; // Переход к следующему вопросу
+            step++;
 
-    // ✅ Если вопросов больше нет – показываем экран победы
-    if (step >= choices.length) {
-        document.querySelector(".game-container").style.display = "none"; // Скрываем всё
-        document.getElementById("end-screen").style.display = "flex"; // Показываем финальный экран
-        return;
-    }
+            // ✅ Если вопросов больше нет – показываем экран победы
+            if (step >= choices.length) {
+                document.querySelector(".game-container").style.display = "none";
+                document.getElementById("end-screen").style.display = "flex";
+                document.body.style.overflow = "hidden"; // ❗ Отключаем прокрутку страницы
+                return;
+            }
 
-    // ❗ Убираем подсветку кнопок перед новым вопросом
-    document.querySelectorAll("button").forEach(btn => {
-        btn.classList.remove("correct-choice", "wrong-choice");
-    });
+            // ❗ Очищаем кнопки от старых цветов
+            document.querySelectorAll("button").forEach(btn => {
+                btn.classList.remove("correct-choice", "wrong-choice");
+            });
 
-    // Обновляем текст кнопок
-    document.getElementById("orange-btn1").textContent = choices[step][0];
-    document.getElementById("orange-btn2").textContent = choices[step][1];
-    document.getElementById("black-btn1").textContent = choices[step][0];
-    document.getElementById("black-btn2").textContent = choices[step][1];
+            // Обновляем текст кнопок
+            document.getElementById("orange-btn1").textContent = choices[step][0];
+            document.getElementById("orange-btn2").textContent = choices[step][1];
+            document.getElementById("black-btn1").textContent = choices[step][0];
+            document.getElementById("black-btn2").textContent = choices[step][1];
 
-    // Сбрасываем выбранные ответы
-    selectedAnswers = { orange: false, black: false };
-}
+            // Сбрасываем выборы
+            selectedAnswers = { orange: false, black: false };
+        }
     </script>
 </body>
 </html>
+
