@@ -109,40 +109,24 @@
     // Двигаем кота
     moveCat(cat, choice);
 
-    console.log("Текущий шаг перед увеличением: ", step);
-    step++; // Увеличиваем шаг
-
-    if (step < choices.length) {
-        setTimeout(updateChoices, 1000); // Ждём 1 секунду перед переключением
+    // Если ход Фаины – включаем кнопки Игната
+    if (cat === 'orange') {
+        document.getElementById("black-btn1").disabled = false;
+        document.getElementById("black-btn2").disabled = false;
     } else {
-        setTimeout(() => {
-            document.querySelector(".choices").classList.add("hidden");
-            document.querySelector("#end-screen").classList.remove("hidden");
-        }, 1000);
+        // Следующий шаг (только после выбора обоих котов)
+        setTimeout(updateChoices, 1000);
     }
 }
-            moveCat(cat, choice);
-            
-            if (cat === 'orange') {
-                selectedOrange = true;
-                document.getElementById("black-btn1").disabled = false;
-                document.getElementById("black-btn2").disabled = false;
-            } else {
-                step++;
-                if (step < choices.length) {
-                    updateChoices();
-                } else {
-                    document.querySelector(".choices").classList.add("hidden");
-                    document.querySelector("#end-screen").classList.remove("hidden");
-                }
-            }
-        }
-
         function moveCat(cat, choice) {
-            let catElement = document.getElementById(`${cat}-cat`);
-            let moveDistance = choice === 0 ? -50 : 50; // Двигаем влево или вправо
-            catElement.style.transform = `translateX(${moveDistance}px)`;
-        }
+    let catElement = document.getElementById(`${cat}-img`);
+    if (!catElement) {
+        console.error("Не найден элемент кота: ", cat);
+        return;
+    }
+    let moveDistance = choice === 0 ? -50 : 50; // Двигаем влево или вправо
+    catElement.style.transform = `translateX(${moveDistance}px)`;
+}
 
         function updateChoices() {
             document.querySelector("#question").textContent = "Выбери путь для каждого котика!";
