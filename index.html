@@ -80,8 +80,6 @@
     z-index: 1000;
     overflow: hidden; /* Убирает прокрутку */
 }
-        }
-
         #end-screen h2 {
     font-size: 32px;
     color: #ff69b4 !important; /* Принудительно розовый */
@@ -102,7 +100,13 @@ button:active {
 button {
     -webkit-tap-highlight-color: transparent; /* Убирает синий/желтый фон при клике */
 }
-
+        /* ✅ Дополнительный сброс фокуса для мобильных */
+button:focus,
+button:active {
+    background-color: #c774b3 !important; /* Вернуть стандартный цвет кнопки */
+    color: #7d3cc9 !important;
+    outline: none; /* Убирает рамку фокуса */
+}
     </style>
 </head>
 <body>
@@ -188,6 +192,7 @@ button {
     buttons.forEach(button => {
         button.classList.remove("correct-choice", "wrong-choice");
         button.style.backgroundColor = ""; // Возвращает стандартный цвет
+        button.blur(); // Убираем фокус с кнопки
     });
 
     // Сбрасываем статусы
