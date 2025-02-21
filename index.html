@@ -113,12 +113,13 @@
         selectedOrange = true;
         document.getElementById("black-btn1").disabled = false;
         document.getElementById("black-btn2").disabled = false;
-    } else {
+    } else if (selectedOrange) {
+        // Переход на следующий шаг только если Фаина уже выбрала
         setTimeout(updateChoices, 1000);
     }
 }
         function moveCat(cat, choice) {
-    let catElement = document.getElementById(`${cat}-img`);
+    let catElement = document.getElementById(`${cat}-cat`); // Исправленный ID
     if (!catElement) {
         console.error("Не найден элемент кота: ", cat);
         return;
@@ -128,9 +129,7 @@
 }
 
         function updateChoices() {
-    if (selectedOrange) {
-        step++; // Увеличиваем шаг только после хода Игната
-    }
+    step++; // Увеличиваем шаг после выбора обоих котов
 
     // Обновляем текст кнопок
     document.getElementById("orange-btn1").textContent = choices[step][0];
@@ -138,7 +137,11 @@
     document.getElementById("black-btn1").textContent = choices[step][0];
     document.getElementById("black-btn2").textContent = choices[step][1];
 
-    // Снова отключаем кнопки Игната до выбора Фаины
+    // ❗ Включаем кнопки Фаины для нового хода
+    document.getElementById("orange-btn1").disabled = false;
+    document.getElementById("orange-btn2").disabled = false;
+
+    // ❗ Отключаем кнопки Игната до выбора Фаины
     document.getElementById("black-btn1").disabled = true;
     document.getElementById("black-btn2").disabled = true;
 
