@@ -94,6 +94,10 @@
         function makeChoice(choice, cat) {
     let selectedOption = choices[step][choice];
 
+    // ❗ Убираем старые цвета ТОЛЬКО у кнопок выбранного кота
+    document.getElementById(`${cat}-btn1`).classList.remove("correct-choice", "wrong-choice");
+    document.getElementById(`${cat}-btn2`).classList.remove("correct-choice", "wrong-choice");
+
     // Если ответ НЕ правильный – делаем красным
     if (correctChoices[cat][step] !== selectedOption) {
         document.getElementById(`${cat}-btn${choice + 1}`).classList.add("wrong-choice");
@@ -103,7 +107,7 @@
         return;
     }
     
-    // ✅ Если ответ правильный – делаем зелёным
+    // ✅ Если ответ правильный – делаем зелёным (только для нажатой кнопки)
     document.getElementById(`${cat}-btn${choice + 1}`).classList.add("correct-choice");
 
     // Двигаем кота
@@ -114,7 +118,6 @@
         document.getElementById("black-btn1").disabled = false;
         document.getElementById("black-btn2").disabled = false;
     } else if (selectedOrange) {
-        // Переход на следующий шаг только если Фаина уже выбрала
         setTimeout(updateChoices, 1000);
     }
 }
