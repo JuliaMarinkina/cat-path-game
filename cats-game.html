@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Котики и Выбор</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #fef5d5;
+        }
+        .game-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+        }
+        .cats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .cat-img {
+            width: 100px;
+            transition: transform 0.5s ease-in-out;
+        }
+        .choices {
+            margin-top: 20px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #ffcc66;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #ffb347;
+        }
+        .hidden {
+            display: none;
+        }
+        .wrong-choice {
+            background-color: #ff6666 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Котики и Выбор</h1>
+        <p id="question">Выбери путь для каждого котика!</p>
+        <div class="cats">
+            <div>
+                <img src="/mnt/data/A_cartoon-style_illustration_of_two_cats._One_is_a.png" alt="Рыжий кот" id="orange-cat" class="cat-img">
+                <p>Рыжий кот</p>
+                <button onclick="makeChoice(0, 'orange')" id="orange-btn1">Мокрый корм</button>
+                <button onclick="makeChoice(1, 'orange')" id="orange-btn2">Сухой корм</button>
+            </div>
+            <div>
+                <img src="/mnt/data/A_cartoon-style_illustration_of_two_cats._One_is_a.png" alt="Черно-белый кот" id="black-cat" class="cat-img">
+                <p>Черно-белый кот</p>
+                <button onclick="makeChoice(0, 'black')" id="black-btn1" disabled>Мокрый корм</button>
+                <button onclick="makeChoice(1, 'black')" id="black-btn2" disabled>Сухой корм</button>
+            </div>
+        </div>
+        <div id="end-screen" class="hidden">
+            <h2>Поздравляю! Ты выиграл приз!</h2>
+            <p>Котики довольны твоими выборами.</p>
+        </div>
+    </div>
+    <script>
+        let step = 0;
+        let selectedOrange = false;
+        const correctChoices = {
+            'orange': ["Мокрый корм", "Какою в туалет", "Поменьбше", "Люблю шошлык", "Люблю мущин"],
+            'black': ["Сухой корм", "Какою на пол", "Побольбше", "Люблю креветки", "Тоже люблю мущин"]
+        };
+        const choices = [
+            ["Мокрый корм", "Сухой корм"],
+            ["Какою в туалет", "Какою на пол"],
+            ["Поменьбше", "Побольбше"],
+            ["Люблю креветки", "Люблю шошлык"],
+            ["Люблю мущин", "Тоже люблю мущин"]
+        ];
+
+        function makeChoice(choice, cat) {
+            let selectedOption = choices[step][choice];
+            if (correctChoices[cat][step] !== selectedOption) {
+                document.getElementById(`${cat}-btn${choice + 1}`).classList.add("wrong-choice");
+                setTimeout(() => {
+                    document.getElementById(`${cat}-btn${choice + 1}`).classList.remove("wrong-choice");
+                }, 500);
+                return;
+            }
+            
+            moveCat(cat, choice);
+            
+            if (cat === 'orange') {
+                selectedOrange = true;
+                document.getElementById("black-btn1").disabled = false;
+                document.getElementById("black-btn2").disabled = false;
+            } else {
+                step++;
+                if (step < choices.length) {
+                    updateChoices();
+                } else {
+                    document.querySelector(".choices").classList.add("hidden");
+                    document.querySelector("#end-screen").classList.remove("hidden");
+                }
+            }
+        }
+
+        function moveCat(cat, choice) {
+            let catElement = document.getElementById(`${cat}-cat`);
+            let moveDistance = choice === 0 ? -50 : 50; // Двигаем влево или вправо
+            catElement.style.transform = `translateX(${moveDistance}px)`;
+        }
+
+        function updateChoices() {
+            document.querySelector("#question").textContent = "Выбери путь для каждого котика!";
+            document.getElementById("orange-btn1").textContent = choices[step][0];
+            document.getElementById("orange-btn2").textContent = choices[step][1];
+            document.getElementById("black-btn1").textContent = choices[step][0];
+            document.getElementById("black-btn2").textContent = choices[step][1];
+            document.getElementById("black-btn1").disabled = true;
+            document.getElementById("black-btn2").disabled = true;
+            selectedOrange = false;
+        }
+    </script>
+</body>
+</html>
