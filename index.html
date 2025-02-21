@@ -137,4 +137,21 @@
                 document.querySelector(".choices").classList.add("hidden");
                 document.getElementById("question").classList.add("hidden");
                 document.getElementById("end-screen").classList.remove("hidden");
-            
+                return;
+            }
+
+            // Обновляем текст кнопок
+            document.getElementById("orange-btn1").textContent = choices[step][0];
+            document.getElementById("orange-btn2").textContent = choices[step][1];
+            document.getElementById("black-btn1").textContent = choices[step][0];
+            document.getElementById("black-btn2").textContent = choices[step][1];
+
+            // ❗ Сбрасываем цвета кнопок
+            document.querySelectorAll("button").forEach(btn => btn.classList.remove("correct-choice", "wrong-choice"));
+
+            // ❗ Сбрасываем выбранные ответы
+            selectedAnswers = { orange: false, black: false };
+        }
+    </script>
+</body>
+</html>
