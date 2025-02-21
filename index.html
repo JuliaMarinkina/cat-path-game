@@ -63,9 +63,12 @@
     background-image: url('https://juliamarinkina.github.io/cat-path-game/prize-background.png');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat; /* Не повторяем картинку */
+    background-color: #d8a7d8; /* Цвет на случай, если картинка не загрузится */
     padding: 50px;
     color: white;
     text-align: center;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -73,10 +76,16 @@
 }
 
 #end-screen h2 {
-    font-size: 36px;
+    font-size: 48px;
     color: #ff69b4;
     font-weight: bold;
-    text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.8);
+    text-shadow: 3px 3px 10px rgba(255, 105, 180, 0.9); /* Более выразительный блеск */
+}
+
+#end-screen p {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
 }
     </style>
 </head>
@@ -146,31 +155,29 @@
         }
 
         function updateChoices() {
-            step++; // Переход к следующему вопросу
+    step++; // Переход к следующему вопросу
 
-            // ✅ Если вопросов больше нет – показываем экран победы
-            if (step >= choices.length) {
-                document.querySelector(".cats").classList.add("hidden");
-                document.querySelector(".choices").classList.add("hidden");
-                document.getElementById("question").classList.add("hidden"); // ❗ Убираем надпись
-                document.getElementById("end-screen").classList.remove("hidden");
-                return;
-            }
+    // ✅ Если вопросов больше нет – показываем экран победы
+    if (step >= choices.length) {
+        document.querySelector(".game-container").style.display = "none"; // Скрываем всё
+        document.getElementById("end-screen").style.display = "flex"; // Показываем финальный экран
+        return;
+    }
 
-            // ❗ Убираем подсветку кнопок перед новым вопросом
-            document.querySelectorAll("button").forEach(btn => {
-                btn.classList.remove("correct-choice", "wrong-choice");
-            });
+    // ❗ Убираем подсветку кнопок перед новым вопросом
+    document.querySelectorAll("button").forEach(btn => {
+        btn.classList.remove("correct-choice", "wrong-choice");
+    });
 
-            // Обновляем текст кнопок
-            document.getElementById("orange-btn1").textContent = choices[step][0];
-            document.getElementById("orange-btn2").textContent = choices[step][1];
-            document.getElementById("black-btn1").textContent = choices[step][0];
-            document.getElementById("black-btn2").textContent = choices[step][1];
+    // Обновляем текст кнопок
+    document.getElementById("orange-btn1").textContent = choices[step][0];
+    document.getElementById("orange-btn2").textContent = choices[step][1];
+    document.getElementById("black-btn1").textContent = choices[step][0];
+    document.getElementById("black-btn2").textContent = choices[step][1];
 
-            // Сбрасываем выбранные ответы
-            selectedAnswers = { orange: false, black: false };
-        }
+    // Сбрасываем выбранные ответы
+    selectedAnswers = { orange: false, black: false };
+}
     </script>
 </body>
 </html>
