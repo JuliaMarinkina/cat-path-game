@@ -36,6 +36,8 @@
             margin: 10px 0;
             padding: 10px;
             font-size: 18px;
+            font-weight: bold;
+            color: white;
             background-color: #c774b3;
             border: none;
             cursor: pointer;
@@ -53,10 +55,8 @@
         .correct-choice {
             background-color: #66ff66 !important;
         }
-        
-        /* ✅ Финальный экран */
         #end-screen {
-            display: none; /* Скрываем экран победы изначально */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -70,24 +70,29 @@
             padding: 50px;
             color: white;
             text-align: center;
+            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             visibility: hidden;
         }
-
         #end-screen h2 {
             font-size: 48px;
             color: #ff69b4;
             font-weight: bold;
             text-shadow: 3px 3px 10px rgba(255, 105, 180, 0.9);
         }
-
         #end-screen p {
             font-size: 20px;
             font-weight: bold;
-            color: white;
+            color: pink;
+            text-shadow: 2px 2px 5px rgba(255, 192, 203, 0.9);
+            animation: sparkle 1s infinite alternate;
+        }
+        @keyframes sparkle {
+            0% { text-shadow: 2px 2px 5px rgba(255, 192, 203, 0.9); }
+            100% { text-shadow: 4px 4px 10px rgba(255, 105, 180, 1); }
         }
     </style>
 </head>
@@ -114,75 +119,7 @@
     <div id="end-screen" class="hidden">
         <h2>Ура! Ты выиграл приз!</h2>
         <p>Котики довольны твоими выборами.</p>
+        <p>С 23 февраля, пися!</p>
     </div>
-
-    <script>
-        let step = 0;
-        let selectedAnswers = { orange: false, black: false };
-        const correctChoices = {
-            'orange': ["Мокрый корм", "Какою в туалет", "Поменьбше", "Люблю шошлык", "Люблю мущин"],
-            'black': ["Сухой корм", "Какою на пол", "Побольбше", "Люблю креветки", "Тоже люблю мущин"]
-        };
-        const choices = [
-            ["Мокрый корм", "Сухой корм"],
-            ["Какою в туалет", "Какою на пол"],
-            ["Поменьбше", "Побольбше"],
-            ["Люблю креветки", "Люблю шошлык"],
-            ["Люблю мущин", "Тоже люблю мущин"]
-        ];
-
-        function makeChoice(choice, cat) {
-            let selectedOption = choices[step][choice];
-
-            // ❗ Убираем старые подсветки у кнопок котика
-            document.getElementById(`${cat}-btn1`).classList.remove("correct-choice", "wrong-choice");
-            document.getElementById(`${cat}-btn2`).classList.remove("correct-choice", "wrong-choice");
-
-            // ❌ Неправильный выбор – делаем красным
-            if (correctChoices[cat][step] !== selectedOption) {
-                document.getElementById(`${cat}-btn${choice + 1}`).classList.add("wrong-choice");
-                setTimeout(() => {
-                    document.getElementById(`${cat}-btn${choice + 1}`).classList.remove("wrong-choice");
-                }, 500);
-                return;
-            }
-
-            // ✅ Правильный выбор – делаем зелёным
-            document.getElementById(`${cat}-btn${choice + 1}`).classList.add("correct-choice");
-            selectedAnswers[cat] = true;
-
-            // Если оба кота выбрали, переходим дальше
-            if (selectedAnswers.orange && selectedAnswers.black) {
-                setTimeout(updateChoices, 500);
-            }
-        }
-
-        function updateChoices() {
-            step++;
-
-            // ✅ Если вопросов больше нет – показываем экран победы
-            if (step >= choices.length) {
-                document.querySelector(".game-container").style.display = "none"; // Скрываем всё
-                document.getElementById("end-screen").style.display = "flex"; // Показываем финальный экран
-                document.getElementById("end-screen").style.visibility = "visible"; // ✅ Теперь точно покажется
-                document.body.style.overflow = "hidden"; // ❗ Отключаем прокрутку страницы
-                return;
-            }
-
-            // ❗ Очищаем кнопки от старых цветов
-            document.querySelectorAll("button").forEach(btn => {
-                btn.classList.remove("correct-choice", "wrong-choice");
-            });
-
-            // Обновляем текст кнопок
-            document.getElementById("orange-btn1").textContent = choices[step][0];
-            document.getElementById("orange-btn2").textContent = choices[step][1];
-            document.getElementById("black-btn1").textContent = choices[step][0];
-            document.getElementById("black-btn2").textContent = choices[step][1];
-
-            // Сбрасываем выборы
-            selectedAnswers = { orange: false, black: false };
-        }
-    </script>
 </body>
 </html>
