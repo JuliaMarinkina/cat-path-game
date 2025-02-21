@@ -83,11 +83,11 @@
         }
 
         #end-screen h2 {
-            font-size: 32px;
-            color: #ff69b4;
-            font-weight: bold;
-            text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.9);
-        }
+    font-size: 32px;
+    color: #ff69b4 !important; /* Принудительно розовый */
+    font-weight: bold;
+    text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.9);
+}
 
         #end-screen p {
             font-size: 18px;
@@ -174,11 +174,12 @@
     document.getElementById("black-btn1").textContent = choices[step][0];
     document.getElementById("black-btn2").textContent = choices[step][1];
 
-    // Сбрасываем цвет кнопок, чтобы они не "застревали" на желтом
-    document.getElementById("orange-btn1").classList.remove("correct-choice", "wrong-choice");
-    document.getElementById("orange-btn2").classList.remove("correct-choice", "wrong-choice");
-    document.getElementById("black-btn1").classList.remove("correct-choice", "wrong-choice");
-    document.getElementById("black-btn2").classList.remove("correct-choice", "wrong-choice");
+    // Сбрасываем все стили кнопок перед новым вопросом
+    let buttons = document.querySelectorAll("button");
+    buttons.forEach(button => {
+        button.classList.remove("correct-choice", "wrong-choice");
+        button.style.backgroundColor = ""; // Возвращает стандартный цвет
+    });
 
     // Сбрасываем статусы
     selectedAnswers.orange = false;
