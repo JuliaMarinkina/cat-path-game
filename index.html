@@ -89,14 +89,34 @@
         ];
 
         function makeChoice(choice, cat) {
-            let selectedOption = choices[step][choice];
-            if (correctChoices[cat][step] !== selectedOption) {
-                document.getElementById(`${cat}-btn${choice + 1}`).classList.add("wrong-choice");
-                setTimeout(() => {
-                    document.getElementById(`${cat}-btn${choice + 1}`).classList.remove("wrong-choice");
-                }, 500);
-                return;
-            }
+    let selectedOption = choices[step][choice];
+
+    // Если ответ НЕ правильный – делаем красным
+    if (correctChoices[cat][step] !== selectedOption) {
+        document.getElementById(`${cat}-btn${choice + 1}`).classList.add("wrong-choice");
+        setTimeout(() => {
+            document.getElementById(`${cat}-btn${choice + 1}`).classList.remove("wrong-choice");
+        }, 500);
+        return;
+    }
+    
+    // ✅ Если ответ правильный – делаем зелёным
+    document.getElementById(`${cat}-btn${choice + 1}`).classList.add("correct-choice");
+
+    // Двигаем кота
+    moveCat(cat, choice);
+
+    // Переход к следующему шагу
+    step++;
+    if (step < choices.length) {
+        setTimeout(updateChoices, 500); // Ждём 0.5 секунды перед переключением
+    } else {
+        setTimeout(() => {
+            document.querySelector(".choices").classList.add("hidden");
+            document.querySelector("#end-screen").classList.remove("hidden");
+        }, 500);
+    }
+}
             
             moveCat(cat, choice);
             
