@@ -109,17 +109,18 @@
     // Двигаем кота
     moveCat(cat, choice);
 
-    // Переход к следующему шагу
-    step++;
+    console.log("Текущий шаг перед увеличением: ", step);
+    step++; // Увеличиваем шаг
+
     if (step < choices.length) {
-        setTimeout(updateChoices, 500); // Ждём 0.5 секунды перед переключением
+        setTimeout(updateChoices, 1000); // Ждём 1 секунду перед переключением
     } else {
         setTimeout(() => {
             document.querySelector(".choices").classList.add("hidden");
             document.querySelector("#end-screen").classList.remove("hidden");
-        }, 500);
+        }, 1000);
     }
-}     
+}
             moveCat(cat, choice);
             
             if (cat === 'orange') {
