@@ -135,20 +135,20 @@
             let selectedOption = choices[step][choice];
 
             // ❗ Убираем старые подсветки у кнопок котика
-            document.getElementById(${cat}-btn1).classList.remove("correct-choice", "wrong-choice");
-            document.getElementById(${cat}-btn2).classList.remove("correct-choice", "wrong-choice");
+            document.getElementById(`${cat}-btn1`).classList.remove("correct-choice", "wrong-choice");
+            document.getElementById(`${cat}-btn2`).classList.remove("correct-choice", "wrong-choice");
 
             // ❌ Неправильный выбор – делаем красным
             if (correctChoices[cat][step] !== selectedOption) {
-                document.getElementById(${cat}-btn${choice + 1}).classList.add("wrong-choice");
+                document.getElementById(`${cat}-btn${choice + 1}`).classList.add("wrong-choice");
                 setTimeout(() => {
-                    document.getElementById(${cat}-btn${choice + 1}).classList.remove("wrong-choice");
+                    document.getElementById(`${cat}-btn${choice + 1}`).classList.remove("wrong-choice");
                 }, 500);
                 return;
             }
 
             // ✅ Правильный выбор – делаем зелёным
-            document.getElementById(${cat}-btn${choice + 1}).classList.add("correct-choice");
+            document.getElementById(`${cat}-btn${choice + 1}`).classList.add("correct-choice");
             selectedAnswers[cat] = true;
 
             // Если оба кота выбрали, переходим дальше
