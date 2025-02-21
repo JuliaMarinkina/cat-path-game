@@ -191,7 +191,8 @@ button:active {
     let buttons = document.querySelectorAll("button");
     buttons.forEach(button => {
         button.classList.remove("correct-choice", "wrong-choice");
-        button.style.backgroundColor = ""; // Возвращает стандартный цвет
+        button.style.backgroundColor = "#c774b3"; // Принудительно возвращаем стандартный цвет
+        button.style.color = "#7d3cc9"; // Принудительно возвращаем цвет текста
         button.blur(); // Убираем фокус с кнопки
     });
 
