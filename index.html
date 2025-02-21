@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>КоськоКвиз</title>
     <style>
+        <style>
         body {
             text-align: center;
             font-family: Arial, sans-serif;
@@ -51,26 +52,34 @@
         .correct-choice {
             background-color: #66ff66 !important; /* Зелёный при правильном ответе */
         }
-        #end-screen {
-    background-image: url('https://juliamarinkina.github.io/cat-path-game/prize-background.jpg'); /* Ссылка на картинку */
-    background-size: cover;
-    background-position: center;
-    padding: 50px;
-    color: white;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
 
-#end-screen h2 {
-    font-size: 36px;
-    color: #ff69b4; /* Розовый текст */
-    font-weight: bold;
-    text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.8); /* Блеск */
-}
+        /* 🔹 Новый код для финального экрана */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #end-screen {
+            background-image: url('https://juliamarinkina.github.io/cat-path-game/prize-background.jpg'); /* Фон */
+            background-size: cover;
+            background-position: center;
+            padding: 50px;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #end-screen h2 {
+            font-size: 36px;
+            color: #ff69b4; /* Розовый текст */
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.8); /* Блеск */
+        }
     </style>
 </head>
 <body>
@@ -137,17 +146,30 @@
             }
         }
 
-        function updateChoices() {
+        unction updateChoices() {
     step++; // Переход к следующему вопросу
 
     // ❗ Если вопросов больше нет – показываем экран победы
     if (step >= choices.length) {
-        document.querySelector(".cats").classList.add("hidden");
-        document.querySelector(".choices").classList.add("hidden");
-        document.getElementById("question").classList.add("hidden");
+        document.querySelector(".game-container").classList.add("hidden"); // Скрываем весь игровой экран
         document.getElementById("end-screen").classList.remove("hidden");
         return;
     }
+
+    // ❗ Убираем подсветку кнопок перед новым вопросом
+    document.querySelectorAll("button").forEach(btn => {
+        btn.classList.remove("correct-choice", "wrong-choice");
+    });
+
+    // Обновляем текст кнопок
+    document.getElementById("orange-btn1").textContent = choices[step][0];
+    document.getElementById("orange-btn2").textContent = choices[step][1];
+    document.getElementById("black-btn1").textContent = choices[step][0];
+    document.getElementById("black-btn2").textContent = choices[step][1];
+
+    // ❗ Сбрасываем выбранные ответы
+    selectedAnswers = { orange: false, black: false };
+}
 
     // ❗ Убираем подсветку кнопок перед новым вопросом
     document.querySelectorAll("button").forEach(btn => {
