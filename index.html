@@ -94,6 +94,15 @@
             font-weight: bold;
             color: white;
         }
+        /* Исправление зависания кнопок на мобильных устройствах */
+button:active {
+    background-color: inherit !important; /* Сбрасывает цвет кнопки при нажатии */
+}
+
+button {
+    -webkit-tap-highlight-color: transparent; /* Убирает синий/желтый фон при клике */
+}
+
     </style>
 </head>
 <body>
