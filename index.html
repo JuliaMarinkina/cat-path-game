@@ -124,34 +124,36 @@
 
             // Если оба котика выбрали, двигаем дальше
             if (selectedAnswers.orange && selectedAnswers.black) {
-                setTimeout(updateChoices, 1000);
+                setTimeout(updateChoices, 500);
             }
         }
 
         function updateChoices() {
-            step++; // Следующий вопрос
+    step++; // Переход к следующему вопросу
 
-            // Если вопросов больше нет – показываем экран победы
-            if (step >= choices.length) {
-                document.querySelector(".cats").classList.add("hidden");
-                document.querySelector(".choices").classList.add("hidden");
-                document.getElementById("question").classList.add("hidden");
-                document.getElementById("end-screen").classList.remove("hidden");
-                return;
-            }
+    // ❗ Если вопросов больше нет – показываем экран победы
+    if (step >= choices.length) {
+        document.querySelector(".cats").classList.add("hidden");
+        document.querySelector(".choices").classList.add("hidden");
+        document.getElementById("question").classList.add("hidden");
+        document.getElementById("end-screen").classList.remove("hidden");
+        return;
+    }
 
-            // Обновляем текст кнопок
-            document.getElementById("orange-btn1").textContent = choices[step][0];
-            document.getElementById("orange-btn2").textContent = choices[step][1];
-            document.getElementById("black-btn1").textContent = choices[step][0];
-            document.getElementById("black-btn2").textContent = choices[step][1];
+    // ❗ Убираем подсветку кнопок перед новым вопросом
+    document.querySelectorAll("button").forEach(btn => {
+        btn.classList.remove("correct-choice", "wrong-choice");
+    });
 
-            // ❗ Сбрасываем цвета кнопок
-            document.querySelectorAll("button").forEach(btn => btn.classList.remove("correct-choice", "wrong-choice"));
+    // Обновляем текст кнопок
+    document.getElementById("orange-btn1").textContent = choices[step][0];
+    document.getElementById("orange-btn2").textContent = choices[step][1];
+    document.getElementById("black-btn1").textContent = choices[step][0];
+    document.getElementById("black-btn2").textContent = choices[step][1];
 
-            // ❗ Сбрасываем выбранные ответы
-            selectedAnswers = { orange: false, black: false };
-        }
+    // ❗ Сбрасываем выбранные ответы
+    selectedAnswers = { orange: false, black: false };
+}
     </script>
 </body>
 </html>
