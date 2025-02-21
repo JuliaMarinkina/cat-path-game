@@ -129,15 +129,18 @@
 }
 
         function updateChoices() {
-            document.querySelector("#question").textContent = "Выбери путь для каждого котика!";
-            document.getElementById("orange-btn1").textContent = choices[step][0];
-            document.getElementById("orange-btn2").textContent = choices[step][1];
-            document.getElementById("black-btn1").textContent = choices[step][0];
-            document.getElementById("black-btn2").textContent = choices[step][1];
-            document.getElementById("black-btn1").disabled = true;
-            document.getElementById("black-btn2").disabled = true;
-            selectedOrange = false;
-        }
+    step++; // Увеличиваем шаг только здесь
+
+    // Обновляем текст кнопок
+    document.getElementById("orange-btn1").textContent = choices[step][0];
+    document.getElementById("orange-btn2").textContent = choices[step][1];
+    document.getElementById("black-btn1").textContent = choices[step][0];
+    document.getElementById("black-btn2").textContent = choices[step][1];
+
+    // Отключаем кнопки Игната (он ждёт хода Фаины)
+    document.getElementById("black-btn1").disabled = true;
+    document.getElementById("black-btn2").disabled = true;
+}
     </script>
 </body>
 </html>
