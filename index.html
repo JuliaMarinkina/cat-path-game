@@ -52,16 +52,25 @@
             background-color: #66ff66 !important; /* Зелёный при правильном ответе */
         }
         #end-screen {
-            background-image: url('https://juliamarinkina.github.io/cat-path-game/prize-background.jpg'); /* Добавляем картинку на фон */
-            background-size: cover;
-            padding: 50px;
-            color: white;
-        }
-        #end-screen h2 {
-            font-size: 36px;
-            color: #ff69b4; /* Розовый текст */
-            text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.8); /* Блеск */
-        }
+    background-image: url('https://juliamarinkina.github.io/cat-path-game/prize-background.jpg'); /* Ссылка на картинку */
+    background-size: cover;
+    background-position: center;
+    padding: 50px;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+#end-screen h2 {
+    font-size: 36px;
+    color: #ff69b4; /* Розовый текст */
+    font-weight: bold;
+    text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.8); /* Блеск */
+}
     </style>
 </head>
 <body>
