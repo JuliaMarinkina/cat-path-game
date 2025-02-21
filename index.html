@@ -59,25 +59,27 @@
         }
 
         #end-screen {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://juliamarinkina.github.io/cat-path-game/prize-background.png?v=2');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #d8a7d8;
-            padding: 30px;
-            color: white;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://juliamarinkina.github.io/cat-path-game/prize-background.png?v=2');
+    background-size: contain; /* Уменьшает фон, чтобы влезал */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #d8a7d8;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    overflow: hidden; /* Убирает прокрутку */
+}
         }
 
         #end-screen h2 {
@@ -159,26 +161,29 @@
         }
 
         function updateChoices() {
-            step++;
+    step++;
 
-            if (step >= choices.length) {
-                document.getElementById("end-screen").classList.remove("hidden");
-                return;
-            }
+    if (step >= choices.length) {
+        document.getElementById("end-screen").classList.remove("hidden");
+        return;
+    }
 
-            document.getElementById("orange-btn1").textContent = choices[step][0];
-            document.getElementById("orange-btn2").textContent = choices[step][1];
-            document.getElementById("black-btn1").textContent = choices[step][0];
-            document.getElementById("black-btn2").textContent = choices[step][1];
+    // Обновляем текст кнопок
+    document.getElementById("orange-btn1").textContent = choices[step][0];
+    document.getElementById("orange-btn2").textContent = choices[step][1];
+    document.getElementById("black-btn1").textContent = choices[step][0];
+    document.getElementById("black-btn2").textContent = choices[step][1];
 
-            document.getElementById("orange-btn1").classList.remove("correct-choice", "wrong-choice");
-            document.getElementById("orange-btn2").classList.remove("correct-choice", "wrong-choice");
-            document.getElementById("black-btn1").classList.remove("correct-choice", "wrong-choice");
-            document.getElementById("black-btn2").classList.remove("correct-choice", "wrong-choice");
+    // Сбрасываем цвет кнопок, чтобы они не "застревали" на желтом
+    document.getElementById("orange-btn1").classList.remove("correct-choice", "wrong-choice");
+    document.getElementById("orange-btn2").classList.remove("correct-choice", "wrong-choice");
+    document.getElementById("black-btn1").classList.remove("correct-choice", "wrong-choice");
+    document.getElementById("black-btn2").classList.remove("correct-choice", "wrong-choice");
 
-            selectedAnswers.orange = false;
-            selectedAnswers.black = false;
-        }
+    // Сбрасываем статусы
+    selectedAnswers.orange = false;
+    selectedAnswers.black = false;
+}
     </script>
 </body>
 </html>
