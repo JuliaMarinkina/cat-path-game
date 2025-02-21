@@ -109,12 +109,11 @@
     // Двигаем кота
     moveCat(cat, choice);
 
-    // Если ход Фаины – включаем кнопки Игната
     if (cat === 'orange') {
+        selectedOrange = true;
         document.getElementById("black-btn1").disabled = false;
         document.getElementById("black-btn2").disabled = false;
     } else {
-        // Следующий шаг (только после выбора обоих котов)
         setTimeout(updateChoices, 1000);
     }
 }
@@ -129,7 +128,9 @@
 }
 
         function updateChoices() {
-    step++; // Увеличиваем шаг только здесь
+    if (selectedOrange) {
+        step++; // Увеличиваем шаг только после хода Игната
+    }
 
     // Обновляем текст кнопок
     document.getElementById("orange-btn1").textContent = choices[step][0];
@@ -137,9 +138,11 @@
     document.getElementById("black-btn1").textContent = choices[step][0];
     document.getElementById("black-btn2").textContent = choices[step][1];
 
-    // Отключаем кнопки Игната (он ждёт хода Фаины)
+    // Снова отключаем кнопки Игната до выбора Фаины
     document.getElementById("black-btn1").disabled = true;
     document.getElementById("black-btn2").disabled = true;
+
+    selectedOrange = false;
 }
     </script>
 </body>
