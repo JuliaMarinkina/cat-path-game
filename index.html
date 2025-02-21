@@ -137,59 +137,61 @@
     ];
 
     function makeChoice(choice, cat) {
-        let selectedOption = choices[step][choice];
+    let selectedOption = choices[step][choice];
 
-        document.getElementById(`${cat}-btn1`).classList.remove("correct-choice", "wrong-choice");
-        document.getElementById(`${cat}-btn2`).classList.remove("correct-choice", "wrong-choice");
+    document.getElementById(`${cat}-btn1`).classList.remove("correct-choice", "wrong-choice");
+    document.getElementById(`${cat}-btn2`).classList.remove("correct-choice", "wrong-choice");
 
-        if (correctChoices[cat][step] !== selectedOption) {
-            document.getElementById(`${cat}-btn${choice + 1}`).classList.add("wrong-choice");
+    if (correctChoices[cat][step] !== selectedOption) {
+        document.getElementById(`${cat}-btn${choice + 1}`).classList.add("wrong-choice");
+        setTimeout(() => {
+            document.getElementById(`${cat}-btn${choice + 1}`).classList.remove("wrong-choice");
+        }, 500);
+        return;
+    }
+
+    document.getElementById(`${cat}-btn${choice + 1}`).classList.add("correct-choice");
+    selectedAnswers[cat] = true;
+
+    if (selectedAnswers.orange && selectedAnswers.black) {
+        if (step >= choices.length - 1) {  // Проверка, последний ли вопрос
             setTimeout(() => {
-                document.getElementById(`${cat}-btn${choice + 1}`).classList.remove("wrong-choice");
+                document.getElementById("end-screen").classList.remove("hidden"); 
+                document.getElementById("end-screen").style.display = "flex"; // Показываем финальный экран
             }, 500);
-            return;
-        }
-
-        document.getElementById(`${cat}-btn${choice + 1}`).classList.add("correct-choice");
-        selectedAnswers[cat] = true;
-
-        if (selectedAnswers.orange && selectedAnswers.black) {
-            if (step === choices.length - 1) {
-                setTimeout(() => {
-                    document.getElementById("end-screen").style.display = "flex";
-                }, 500);
-            } else {
-                setTimeout(updateChoices, 500);
-            }
+        } else {
+            setTimeout(updateChoices, 500);
         }
     }
+}
 
-    function updateChoices() {
-        step++;
+function updateChoices() {
+    step++;
 
-        if (step >= choices.length) {
-            document.getElementById("end-screen").style.display = "flex";
-            return;
-        }
-
-        document.getElementById("orange-btn1").textContent = choices[step][0];
-        document.getElementById("orange-btn2").textContent = choices[step][1];
-        document.getElementById("black-btn1").textContent = choices[step][0];
-        document.getElementById("black-btn2").textContent = choices[step][1];
-
-        document.getElementById("orange-btn1").classList.remove("correct-choice", "wrong-choice");
-        document.getElementById("orange-btn2").classList.remove("correct-choice", "wrong-choice");
-        document.getElementById("black-btn1").classList.remove("correct-choice", "wrong-choice");
-        document.getElementById("black-btn2").classList.remove("correct-choice", "wrong-choice");
-
-        document.getElementById("orange-btn1").disabled = false;
-        document.getElementById("orange-btn2").disabled = false;
-        document.getElementById("black-btn1").disabled = false;
-        document.getElementById("black-btn2").disabled = false;
-
-        selectedAnswers.orange = false;
-        selectedAnswers.black = false;
+    if (step >= choices.length) {
+        document.getElementById("end-screen").classList.remove("hidden");
+        document.getElementById("end-screen").style.display = "flex";
+        return;
     }
+
+    document.getElementById("orange-btn1").textContent = choices[step][0];
+    document.getElementById("orange-btn2").textContent = choices[step][1];
+    document.getElementById("black-btn1").textContent = choices[step][0];
+    document.getElementById("black-btn2").textContent = choices[step][1];
+
+    document.getElementById("orange-btn1").classList.remove("correct-choice", "wrong-choice");
+    document.getElementById("orange-btn2").classList.remove("correct-choice", "wrong-choice");
+    document.getElementById("black-btn1").classList.remove("correct-choice", "wrong-choice");
+    document.getElementById("black-btn2").classList.remove("correct-choice", "wrong-choice");
+
+    document.getElementById("orange-btn1").disabled = false;
+    document.getElementById("orange-btn2").disabled = false;
+    document.getElementById("black-btn1").disabled = false;
+    document.getElementById("black-btn2").disabled = false;
+
+    selectedAnswers.orange = false;
+    selectedAnswers.black = false;
+}
 </script>
 </body>
 </html>
